@@ -1,6 +1,6 @@
 {
   "name": "mongoose-auto-api.cli",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Automatic Mongoose REST API - Setup CLI module",
   "main": "./js/index.js",
   "files": [

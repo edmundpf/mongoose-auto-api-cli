@@ -443,6 +443,10 @@ updateAppConfig = () ->
 			...answer
 		}
 		apiPort = answer.serverPort
+		p.warning(
+			'The app config has changed and the Rest API may not use the correct database or port, please restart the CLI or server to pull these changes.',
+			log:false
+		)
 		return await exitPrompt()
 	else
 		return await tryAgainPrompt(updateAppConfig)
