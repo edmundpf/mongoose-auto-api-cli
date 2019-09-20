@@ -3,7 +3,16 @@ p = require('print-tools-js')
 resolve = require('path').resolve
 editJson = require('edit-json-file')
 c = require('mongoose-auto-api.consumer')
-defaultConfig = require('../../node_modules/mongoose-auto-api.rest/js/data/defaultConfig.json')
+
+#: Get Default Config
+try
+	defaultConfig = require('../../node_modules/mongoose-auto-api.rest/js/data/defaultConfig.json')
+catch error
+	try
+		defaultConfig = require('../../mongoose-auto-api.rest/js/data/defaultConfig.json')
+	catch error
+		p.error('Could not find default app config file.')
+		process.exit(1)
 
 #: Get App Config
 

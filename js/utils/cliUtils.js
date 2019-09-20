@@ -10,7 +10,19 @@ editJson = require('edit-json-file');
 
 c = require('mongoose-auto-api.consumer');
 
-defaultConfig = require('../../node_modules/mongoose-auto-api.rest/js/data/defaultConfig.json');
+try {
+  //: Get Default Config
+  defaultConfig = require('../../node_modules/mongoose-auto-api.rest/js/data/defaultConfig.json');
+} catch (error1) {
+  error = error1;
+  try {
+    defaultConfig = require('../../mongoose-auto-api.rest/js/data/defaultConfig.json');
+  } catch (error1) {
+    error = error1;
+    p.error('Could not find default app config file.');
+    process.exit(1);
+  }
+}
 
 try {
   //: Get App Config
