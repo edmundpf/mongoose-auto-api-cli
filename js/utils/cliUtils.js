@@ -16,7 +16,7 @@ try {
 } catch (error1) {
   error = error1;
   try {
-    defaultConfig = require('../../mongoose-auto-api.rest/js/data/defaultConfig.json');
+    defaultConfig = require('../../../mongoose-auto-api.rest/js/data/defaultConfig.json');
   } catch (error1) {
     error = error1;
     p.error('Could not find default app config file.');
@@ -465,6 +465,7 @@ updateAppConfig = async function() {
   updated = updateJson(appConfigPath, answer, 'app config');
   if (updated) {
     appConfig = {...appConfig, ...answer};
+    apiPort = answer.serverPort;
     return (await exitPrompt());
   } else {
     return (await tryAgainPrompt(updateAppConfig));

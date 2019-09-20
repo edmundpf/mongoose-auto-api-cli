@@ -9,7 +9,7 @@ try
 	defaultConfig = require('../../node_modules/mongoose-auto-api.rest/js/data/defaultConfig.json')
 catch error
 	try
-		defaultConfig = require('../../mongoose-auto-api.rest/js/data/defaultConfig.json')
+		defaultConfig = require('../../../mongoose-auto-api.rest/js/data/defaultConfig.json')
 	catch error
 		p.error('Could not find default app config file.')
 		process.exit(1)
@@ -442,6 +442,7 @@ updateAppConfig = () ->
 			...appConfig,
 			...answer
 		}
+		apiPort = answer.serverPort
 		return await exitPrompt()
 	else
 		return await tryAgainPrompt(updateAppConfig)
