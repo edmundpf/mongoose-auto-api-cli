@@ -1,0 +1,11 @@
+# Dependencies
+node_modules/
+
+# Grunt Storage
+.grunt
+
+# Models Folder
+models/
+
+# App Config
+appConfig.json
