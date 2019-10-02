@@ -1,5 +1,6 @@
 inq = require('inquirer')
 p = require('print-tools-js')
+publicIp = require('public-ip')
 resolve = require('path').resolve
 editJson = require('edit-json-file')
 c = require('mongoose-auto-api.consumer')
@@ -420,6 +421,21 @@ updateAppConfig = () ->
 			'Enter Web App port'
 			'webPort'
 		)
+		{
+			type: 'list'
+			name: 'serverAddress'
+			message: 'Will the web app be exposed publicly?'
+			choices: [
+				{
+					name: 'Yes'
+					value: true
+				}
+				{
+					name: 'No'
+					value: false
+				}
+			]
+		}
 		numAppConfigPrompt(
 			'Enter Mongoose Database port'
 			'mongoosePort'
@@ -432,6 +448,13 @@ updateAppConfig = () ->
 			default: appConfig.hiddenFields.join(',')
 		}
 	])
+
+	if answer.serverAddress
+		answer.serverAddress = await publicIp.v4()
+		p.success("Fetched public IP address: #{answer.serverAddress}")
+	else
+		answer.serverAddress = 'localhost'
+
 	updated = updateJson(
 		appConfigPath,
 		answer,

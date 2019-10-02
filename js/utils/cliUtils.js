@@ -1,8 +1,10 @@
-var apiPort, apiRunning, appConfig, appConfigPath, appConfigPrompt, authorEmail, authorName, c, changeDefault, checkApi, chooseAction, con, defPrompted, defaultConfig, editJson, error, exitPrompt, getBoolean, getList, getNumber, inputPrompt, inq, isNumber, login, notEmpty, numAppConfigPrompt, numInputPrompt, numPackageConfigPrompt, p, packageConfig, packageConfigPath, packageConfigPrompt, printError, printMethodStart, resolve, tryAgainPrompt, updateAppConfig, updateJson, updatePackageConfig, updateSecretKey, yesNoPrompt;
+var apiPort, apiRunning, appConfig, appConfigPath, appConfigPrompt, authorEmail, authorName, c, changeDefault, checkApi, chooseAction, con, defPrompted, defaultConfig, editJson, error, exitPrompt, getBoolean, getList, getNumber, inputPrompt, inq, isNumber, login, notEmpty, numAppConfigPrompt, numInputPrompt, numPackageConfigPrompt, p, packageConfig, packageConfigPath, packageConfigPrompt, printError, printMethodStart, publicIp, resolve, tryAgainPrompt, updateAppConfig, updateJson, updatePackageConfig, updateSecretKey, yesNoPrompt;
 
 inq = require('inquirer');
 
 p = require('print-tools-js');
+
+publicIp = require('public-ip');
 
 resolve = require('path').resolve;
 
@@ -452,6 +454,21 @@ updateAppConfig = async function() {
     'serverPort'),
     numAppConfigPrompt('Enter Web App port',
     'webPort'),
+    {
+      type: 'list',
+      name: 'serverAddress',
+      message: 'Will the web app be exposed publicly?',
+      choices: [
+        {
+          name: 'Yes',
+          value: true
+        },
+        {
+          name: 'No',
+          value: false
+        }
+      ]
+    },
     numAppConfigPrompt('Enter Mongoose Database port',
     'mongoosePort'),
     {
@@ -462,6 +479,12 @@ updateAppConfig = async function() {
       default: appConfig.hiddenFields.join(',')
     }
   ]));
+  if (answer.serverAddress) {
+    answer.serverAddress = (await publicIp.v4());
+    p.success(`Fetched public IP address: ${answer.serverAddress}`);
+  } else {
+    answer.serverAddress = 'localhost';
+  }
   updated = updateJson(appConfigPath, answer, 'app config');
   if (updated) {
     appConfig = {...appConfig, ...answer};
