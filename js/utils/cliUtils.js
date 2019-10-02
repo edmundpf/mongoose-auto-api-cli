@@ -272,14 +272,15 @@ changeDefault = async function() {
 
 //: Check if API is running
 checkApi = async function() {
-  var answer;
+  var answer, api;
   if (!apiRunning) {
     answer = (await yesNoPrompt('Is the API already running?'));
     if (answer.choice === 'No') {
       p.bullet('Starting API...', {
         log: false
       });
-      require('mongoose-auto-api.rest');
+      api = require('mongoose-auto-api.rest');
+      await api.start();
       return apiRunning = true;
     } else {
       answer = (await inq.prompt([

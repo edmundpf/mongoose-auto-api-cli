@@ -250,7 +250,8 @@ checkApi = () ->
 		)
 		if answer.choice == 'No'
 			p.bullet('Starting API...', log: false)
-			require('mongoose-auto-api.rest')
+			api = require('mongoose-auto-api.rest')
+			await api.start()
 			apiRunning = true
 		else
 			answer = await inq.prompt([
