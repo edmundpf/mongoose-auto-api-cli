@@ -9,3 +9,7 @@ models/
 
 # App Config
 appConfig.json
+
+# Keys
+
+keys/

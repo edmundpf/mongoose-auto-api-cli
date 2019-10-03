@@ -1,4 +1,6 @@
-var apiPort, apiRunning, appConfig, appConfigPath, appConfigPrompt, authorEmail, authorName, c, changeDefault, checkApi, chooseAction, con, defPrompted, defaultConfig, editJson, error, exitPrompt, getBoolean, getList, getNumber, inputPrompt, inq, isNumber, login, notEmpty, numAppConfigPrompt, numInputPrompt, numPackageConfigPrompt, p, packageConfig, packageConfigPath, packageConfigPrompt, printError, printMethodStart, publicIp, resolve, tryAgainPrompt, updateAppConfig, updateJson, updatePackageConfig, updateSecretKey, yesNoPrompt;
+var apiPort, apiRunning, appConfig, appConfigPath, appConfigPrompt, authorEmail, authorName, c, changeDefault, checkApi, chooseAction, con, createCerts, defPrompted, defaultConfig, editJson, error, exitPrompt, fs, getBoolean, getList, getNumber, inputPrompt, inq, isNumber, login, notEmpty, numAppConfigPrompt, numInputPrompt, numPackageConfigPrompt, p, packageConfig, packageConfigPath, packageConfigPrompt, printError, printMethodStart, publicIp, resolve, tryAgainPrompt, updateAppConfig, updateJson, updatePackageConfig, updateSecretKey, yesNoPrompt;
+
+fs = require('fs');
 
 inq = require('inquirer');
 
@@ -310,6 +312,7 @@ chooseAction = async function() {
     'Set Secret Key': updateSecretKey,
     'Configure Rest API and Web App': updateAppConfig,
     'Configure App Package': updatePackageConfig,
+    'Create SSL Keys': createCerts,
     'Exit': true
   };
   choices = [];
@@ -552,6 +555,33 @@ updatePackageConfig = async function() {
     return (await exitPrompt());
   } else {
     return (await tryAgainPrompt(updatepackageConfig));
+  }
+};
+
+//: Create SSL Keys
+createCerts = async function() {
+  try {
+    if (!fs.existsSync('./keys')) {
+      fs.mkdirSync('./keys');
+    }
+    p.success('Created models directory', {
+      log: false
+    });
+    p.success('Please run the following command in the project root directory to generate ssl keys', {
+      log: false
+    });
+    p.bullet('openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout keys/ss.key -out keys/ss.crt', {
+      log: false,
+      indent: 1
+    });
+    return (await exitPrompt());
+  } catch (error1) {
+    error = error1;
+    p.error('Could not create SSL keys', {
+      log: false
+    });
+    console.log(error);
+    return (await tryAgainPrompt(createCerts));
   }
 };
 

@@ -1,3 +1,4 @@
+fs = require('fs')
 inq = require('inquirer')
 p = require('print-tools-js')
 publicIp = require('public-ip')
@@ -274,6 +275,7 @@ chooseAction = () ->
 		'Set Secret Key': updateSecretKey
 		'Configure Rest API and Web App': updateAppConfig
 		'Configure App Package': updatePackageConfig
+		'Create SSL Keys': createCerts
 		'Exit': true
 	}
 	choices = []
@@ -546,6 +548,25 @@ updatePackageConfig = () ->
 		return await exitPrompt()
 	else
 		return await tryAgainPrompt(updatepackageConfig)
+
+#: Create SSL Keys
+
+createCerts = () ->
+	try
+		if !fs.existsSync('./keys')
+			fs.mkdirSync('./keys')
+		p.success('Created models directory', log: false)
+		p.success('Please run the following command in the project root directory to generate ssl keys', log: false)
+		p.bullet(
+			'openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout keys/ss.key -out keys/ss.crt',
+			log: false
+			indent: 1
+		)
+		return await exitPrompt()
+	catch error
+		p.error('Could not create SSL keys', log: false)
+		console.log(error)
+		return await tryAgainPrompt(createCerts)
 
 #::: Exports :::
 
