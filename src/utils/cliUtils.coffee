@@ -555,7 +555,7 @@ createCerts = () ->
 	try
 		if !fs.existsSync('./keys')
 			fs.mkdirSync('./keys')
-		p.success('Created models directory', log: false)
+		p.success('Created keys directory', log: false)
 		p.success('Please run the following command in the project root directory to generate ssl keys', log: false)
 		p.bullet(
 			'openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout keys/ss.key -out keys/ss.crt',

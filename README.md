@@ -22,5 +22,7 @@ cli()
 	* Configures Rest API and Web App settings such as title, description, ports, hidden fields, etc.
 * *Configure App Package*
 	* Configures fields in app's `package.json` file such as name, description, author, repository, etc.
+* *Create SSL Keys*
+	* Creates SSL Keys to secure PWA
 * *Exit*
 	* Closes the CLI
