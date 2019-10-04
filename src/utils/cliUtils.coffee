@@ -274,7 +274,7 @@ chooseAction = () ->
 		'Set Secret Key': updateSecretKey
 		'Configure Rest API and Web App': updateAppConfig
 		'Configure App Package': updatePackageConfig
-		'Create SSL Keys': createCerts
+		"""Create SSL Keys with Let's Encrypt""": createCerts
 		'Exit': true
 	}
 	choices = []
@@ -431,6 +431,18 @@ updateAppConfig = () ->
 			'Enter Server Address/Hostname'
 			'serverAddress'
 		)
+		appConfigPrompt(
+			'Enter SSL Private Key Path'
+			'sslKey'
+		)
+		appConfigPrompt(
+			'Enter SSL Cert Path'
+			'sslCert'
+		)
+		appConfigPrompt(
+			'Enter SSL Chain Path'
+			'sslChain'
+		)
 		{
 			type: 'input'
 			name: 'hiddenFields'
@@ -539,25 +551,20 @@ createCerts = () ->
 			fs.mkdirSync('./keys')
 			p.success('Created keys directory', log: false)
 
-		options = [
-			{
-				title: 'Create keys with OpenSSL'
-				link: 'https://somoit.net/security/security-create-self-signed-san-certificate-openssl'
-			}
-			{
-				title: 'Create keys with LetsEncrypt'
-				link: 'https://www.digitalocean.com/community/tutorials/how-to-use-certbot-standalone-mode-to-retrieve-let-s-encrypt-ssl-certificates-on-ubuntu-1804'
-			}
+		steps = [
+			'sudo wget https://dl.eff.org/certbot-auto -O /usr/bin/certbot-auto && sudo chmod +x /usr/bin/certbot-auto'
+			'certbot-auto certonly --standalone -d example.com -d www.example.com'
+			'Cron Tab renewal: 0 0,12 /usr/bin/certbot-auto renew --quiet'
 		]
 
-		for option of options
-			p.success("Option #{option} - #{options[option].title}:", log: false)
+		p.success("Steps to create SSL certificates with Let's Encrypt:", log: false)
+		for step in steps
 			p.bullet(
-				options[option].link,
+				step,
 				log: false
 				indent: 1
 			)
-		p.chevron('Option 3 - Place existing SSL keys in "keys/" directory', log: false)
+
 		return await exitPrompt()
 
 	catch error

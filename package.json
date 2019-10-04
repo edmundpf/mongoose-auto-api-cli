@@ -1,6 +1,6 @@
 {
   "name": "mongoose-auto-api.cli",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Automatic Mongoose REST API - Setup CLI module",
   "main": "./js/index.js",
   "files": [
@@ -34,8 +34,8 @@
   "dependencies": {
     "edit-json-file": "^1.3.1",
     "inquirer": "^7.0.0",
-    "mongoose-auto-api.consumer": "^0.2.0",
-    "mongoose-auto-api.rest": "^0.2.5",
+    "mongoose-auto-api.consumer": "^0.2.1",
+    "mongoose-auto-api.rest": "^0.2.6",
     "print-tools-js": "^1.1.0"
   },
   "devDependencies": {
