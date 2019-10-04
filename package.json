@@ -1,13 +1,13 @@
 {
   "name": "mongoose-auto-api.cli",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Automatic Mongoose REST API - Setup CLI module",
   "main": "./js/index.js",
   "files": [
     "/js"
   ],
   "scripts": {
- 		"start": "node ./js/driver",
+    "start": "node ./js/driver",
     "test": "./node_modules/.bin/mocha js/tests",
     "compile": "grunt sync"
   },
@@ -34,10 +34,9 @@
   "dependencies": {
     "edit-json-file": "^1.3.1",
     "inquirer": "^7.0.0",
-    "mongoose-auto-api.consumer": "^0.1.7",
-    "mongoose-auto-api.rest": "^0.2.2",
-    "print-tools-js": "^1.1.0",
-    "public-ip": "^3.2.0"
+    "mongoose-auto-api.consumer": "^0.1.8",
+    "mongoose-auto-api.rest": "^0.2.4",
+    "print-tools-js": "^1.1.0"
   },
   "devDependencies": {
     "chai": "*",

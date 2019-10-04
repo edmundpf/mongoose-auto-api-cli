@@ -1,7 +1,6 @@
 fs = require('fs')
 inq = require('inquirer')
 p = require('print-tools-js')
-publicIp = require('public-ip')
 resolve = require('path').resolve
 editJson = require('edit-json-file')
 c = require('mongoose-auto-api.consumer')
@@ -424,24 +423,13 @@ updateAppConfig = () ->
 			'Enter Web App port'
 			'webPort'
 		)
-		{
-			type: 'list'
-			name: 'serverAddress'
-			message: 'Will the web app be exposed publicly?'
-			choices: [
-				{
-					name: 'Yes'
-					value: true
-				}
-				{
-					name: 'No'
-					value: false
-				}
-			]
-		}
 		numAppConfigPrompt(
 			'Enter Mongoose Database port'
 			'mongoosePort'
+		)
+		appConfigPrompt(
+			'Enter Server Address/Hostname'
+			'serverAddress'
 		)
 		{
 			type: 'input'
@@ -451,12 +439,6 @@ updateAppConfig = () ->
 			default: appConfig.hiddenFields.join(',')
 		}
 	])
-
-	if answer.serverAddress
-		answer.serverAddress = await publicIp.v4()
-		p.success("Fetched public IP address: #{answer.serverAddress}")
-	else
-		answer.serverAddress = 'localhost'
 
 	updated = updateJson(
 		appConfigPath,
@@ -555,14 +537,29 @@ createCerts = () ->
 	try
 		if !fs.existsSync('./keys')
 			fs.mkdirSync('./keys')
-		p.success('Created keys directory', log: false)
-		p.success('Please run the following command in the project root directory to generate ssl keys', log: false)
-		p.bullet(
-			'openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout keys/ss.key -out keys/ss.crt',
-			log: false
-			indent: 1
-		)
+			p.success('Created keys directory', log: false)
+
+		options = [
+			{
+				title: 'Create keys with OpenSSL'
+				link: 'https://somoit.net/security/security-create-self-signed-san-certificate-openssl'
+			}
+			{
+				title: 'Create keys with LetsEncrypt'
+				link: 'https://www.digitalocean.com/community/tutorials/how-to-use-certbot-standalone-mode-to-retrieve-let-s-encrypt-ssl-certificates-on-ubuntu-1804'
+			}
+		]
+
+		for option of options
+			p.success("Option #{option} - #{options[option].title}:", log: false)
+			p.bullet(
+				options[option].link,
+				log: false
+				indent: 1
+			)
+		p.chevron('Option 3 - Place existing SSL keys in "keys/" directory', log: false)
 		return await exitPrompt()
+
 	catch error
 		p.error('Could not create SSL keys', log: false)
 		console.log(error)
