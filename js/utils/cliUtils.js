@@ -14,11 +14,11 @@ c = require('mongoose-auto-api.consumer');
 
 try {
   //: Get Default Config
-  defaultConfig = require('../../node_modules/mongoose-auto-api.rest/js/data/defaultConfig.json');
+  defaultConfig = require('../../node_modules/mongoose-auto-api.rest/dist/data/defaultConfig.json');
 } catch (error1) {
   error = error1;
   try {
-    defaultConfig = require('../../../mongoose-auto-api.rest/js/data/defaultConfig.json');
+    defaultConfig = require('../../../mongoose-auto-api.rest/dist/data/defaultConfig.json');
   } catch (error1) {
     error = error1;
     p.error('Could not find default app config file.');
