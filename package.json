@@ -1,12 +1,12 @@
 {
   "name": "mongoose-auto-api.cli",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Automatic Mongoose REST API - Setup CLI module",
   "main": "./js/index.js",
   "files": [
-		"/js/driver.js",
-		"/js/index.js",
-		"/js/utils"
+    "/js/driver.js",
+    "/js/index.js",
+    "/js/utils"
   ],
   "scripts": {
     "start": "node ./js/driver",
