@@ -4,7 +4,9 @@
   "description": "Automatic Mongoose REST API - Setup CLI module",
   "main": "./js/index.js",
   "files": [
-    "/js"
+		"/js/driver.js",
+		"/js/index.js",
+		"/js/utils"
   ],
   "scripts": {
     "start": "node ./js/driver",
